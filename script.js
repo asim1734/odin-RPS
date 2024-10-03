@@ -60,4 +60,3 @@ function playGame(){
     else console.log("You win!!!")
 }
 
-playGame()
