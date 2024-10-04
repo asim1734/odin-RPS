@@ -18,7 +18,17 @@ function getHumanChoice(event){
 function playRound(event){
     const humanChoice = getHumanChoice(event);
     const computerChoice = getComputerChoice();
-    console.log(humanChoice + computerChoice);
+    const verdict = determineWinner(humanChoice , computerChoice);
+    displayResult(verdict);
+}
+
+function determineWinner(humanChoice , computerChoice){
+    const humanIndex = moves.indexOf(humanChoice);
+    const computerIndex = moves.indexOf(computerChoice);
+    const decider = Math.abs(humanIndex - computerIndex) % 3;
+    if (decider == 0) return 0;
+    else if (decider == 1) return -1;
+    else return 1
 }
 
 function playGame(){
