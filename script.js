@@ -1,62 +1,30 @@
-let moves = ["rock","paper","scissor"];
+const playerChoice= document.querySelectorAll(".choice");
 let humanScore = 0;
 let computerScore = 0;
+const moves = ["rock","paper","scissors"];
 
-function getComputerChoice()
-{
-    return moves[Math.floor(Math.random()*3)];
+playerChoice.forEach(choice =>{
+    choice.addEventListener('click' , playRound);
+});
+
+function getComputerChoice(){
+    return moves[Math.floor(Math.random() * 3)];
 }
 
-function getHumanChoice(){
-    return prompt("Enter your move");
+function getHumanChoice(event){
+    return event.target.id;
 }
 
-
-
-function playRound(humanChoice, computerChoice) {
-    if (humanChoice === computerChoice) {
-        console.log(`It's a tie between ${humanChoice} and ${computerChoice}`);
-    }
-    else if (humanChoice === "rock") {
-        if (computerChoice === "scissor") {
-            console.log(`You win! rock beats scissor`);
-            humanScore++;
-        } else {
-            console.log(`You lose! paper beats rock`);
-            computerScore++;
-        }
-    }
-    else if (humanChoice === "paper") {
-        if (computerChoice === "rock") {
-            console.log(`You win! paper beats rock`);
-            humanScore++;
-        } else {
-            console.log(`You lose! scissor beats paper`);
-            computerScore++;
-        }
-    }
-    else {
-        if (computerChoice === "paper") {
-            console.log(`You win! scissor beats paper`);
-            humanScore++;
-        } else {
-            console.log(`You lose! rock beats scissor`);
-            computerScore++;
-        }
-    }
+function playRound(event){
+    const humanChoice = getHumanChoice(event);
+    const computerChoice = getComputerChoice();
+    console.log(humanChoice + computerChoice);
 }
 
 function playGame(){
-    for(let i = 0 ; i < 5 ; i++){
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
-        if (!humanChoice.includes(humanChoice)){
-            console.log(`Invalid choice: ${humanChoice}. Please choose rock, paper, or scissor.`);
-            i--;
-        }
-        playRound(humanChoice.toLowerCase() , computerChoice)
-    }
-    if (computerScore > humanScore) console.log("Computer wins :(") 
-    else console.log("You win!!!")
+    
 }
 
+function test(){
+    console.log("click");
+}
