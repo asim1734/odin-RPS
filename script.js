@@ -1,6 +1,7 @@
 const playerChoice= document.querySelectorAll(".choice");
 let humanScore = 0;
 let computerScore = 0;
+let roundCount = 1 ;
 const moves = ["rock","paper","scissor"];
 
 playerChoice.forEach(choice =>{
@@ -19,7 +20,9 @@ function playRound(event){
     const humanChoice = getHumanChoice(event);
     const computerChoice = getComputerChoice();
     const verdict = determineWinner(humanChoice , computerChoice);
-    displayResult(verdict, humanChoice , computerChoice);
+    displayVersus(humanChoice , computerChoice);
+    displayVerdictText(verdict,humanChoice , computerChoice);
+    updateScores(verdict);
 }
 
 function determineWinner(humanChoice , computerChoice){
@@ -31,7 +34,7 @@ function determineWinner(humanChoice , computerChoice){
     else return 1
 }
 
-function displayResult(verdict, humanChoice , computerChoice){
+function displayVersus(humanChoice , computerChoice){
     const versusDiv = document.querySelector(".versus");
 
     const humanChoiceImage = document.createElement("img");
@@ -43,12 +46,39 @@ function displayResult(verdict, humanChoice , computerChoice){
 
     const VSText = document.createElement("p");
     VSText.textContent = "VS."
-    VSText.style.cssText = "display: inline"
+    VSText.style.cssText = "display: inline; color:#FFD700; font-weight: bold; font-size:large"
     versusDiv.appendChild(VSText);
 
     computerChoiceImage.src = `${computerChoice}.jpg`;
     computerChoiceImage.style.width = "15%";
     versusDiv.appendChild(computerChoiceImage);
+
+    // roundCount += 1;
+    // roundCounter.textContent = `Round: ${roundCount}`;
+}
+
+function displayVerdictText(verdict,humanChoice , computerChoice){
+    const resultP = document.querySelector(".result-p");
+
+    const result = (verdict === 1) ? 'win' : (verdict === -1) ? 'lose' : 'tied';
+    const formattedResult = `You ${result}!!`;
+    resultP.textContent = formattedResult;
+
+}
+
+function updateScores(verdict){
+    const humanScoreSelector = document.querySelector(".player-score");
+    const computerScoreSelector =  document.querySelector(".computer-score");
+    const roundCounter =  document.querySelector(".round-counter");
+
+    if (verdict == 1){
+        humanScore +=1;
+        humanScoreSelector.textContent = `Player: ${humanScore}`;
+    }
+    else if (verdict == -1){
+        computerScore +=1;
+        computerScoreSelector.textContent = `Computer: ${computerScore}`;
+    }
 }
 
 function playGame(){
