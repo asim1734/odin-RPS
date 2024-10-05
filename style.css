@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    border: 2px solid black;
 }
 
 html, body {
@@ -73,4 +74,14 @@ header {
     font-size: 2em;
     color: #FFD700;
     margin-top: 10px;
+}
+
+.next-round-btn{
+    background-color: black;
+    color: red;
+    border: none;
+    border-radius: 10px;
+    margin: 20px auto;
+    text-align: center;
+    display: block;
 }

@@ -23,6 +23,7 @@ function playRound(event){
     displayVersus(humanChoice , computerChoice);
     displayVerdictText(verdict,humanChoice , computerChoice);
     updateScores(verdict);
+    startNextRound();
 }
 
 function determineWinner(humanChoice , computerChoice){
@@ -35,7 +36,11 @@ function determineWinner(humanChoice , computerChoice){
 }
 
 function displayVersus(humanChoice , computerChoice){
-    const versusDiv = document.querySelector(".versus");
+    const resultDiv = document.querySelector(".result");
+
+    const versusDiv = document.createElement("div");
+    versusDiv.classList.add("versus");
+    resultDiv.append(versusDiv);
 
     const humanChoiceImage = document.createElement("img");
     const computerChoiceImage = document.createElement("img");
@@ -53,12 +58,14 @@ function displayVersus(humanChoice , computerChoice){
     computerChoiceImage.style.width = "15%";
     versusDiv.appendChild(computerChoiceImage);
 
-    // roundCount += 1;
-    // roundCounter.textContent = `Round: ${roundCount}`;
 }
 
 function displayVerdictText(verdict,humanChoice , computerChoice){
-    const resultP = document.querySelector(".result-p");
+    const resultDiv = document.querySelector(".result");
+
+    const resultP = document.createElement("p");
+    resultP.classList.add("result-p");
+    resultDiv.append(resultP);
 
     const result = (verdict === 1) ? 'win' : (verdict === -1) ? 'lose' : 'tied';
     const formattedResult = `You ${result}!!`;
@@ -69,7 +76,6 @@ function displayVerdictText(verdict,humanChoice , computerChoice){
 function updateScores(verdict){
     const humanScoreSelector = document.querySelector(".player-score");
     const computerScoreSelector =  document.querySelector(".computer-score");
-    const roundCounter =  document.querySelector(".round-counter");
 
     if (verdict == 1){
         humanScore +=1;
@@ -81,9 +87,26 @@ function updateScores(verdict){
     }
 }
 
-function playGame(){
+function startNextRound(){
+    const nextRoundBtn = document.createElement("button");
+    const resultDiv =  document.querySelector(".result");
+
+    nextRoundBtn.classList.add("next-round-btn");
+    nextRoundBtn.textContent = "Start next round";
+    document.body.appendChild(nextRoundBtn);
+
+    nextRoundBtn.addEventListener("click" , function (){
+        while (resultDiv.firstChild){
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        document.body.removeChild(nextRoundBtn);
     
+        const roundCounter =  document.querySelector(".round-counter");
+        roundCount += 1;
+        roundCounter.textContent = `Round: ${roundCount}`;
+    });
 }
+
 
 function test(){
     console.log("click");
