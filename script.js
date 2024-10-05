@@ -4,9 +4,16 @@ let computerScore = 0;
 let roundCount = 1 ;
 const moves = ["rock","paper","scissor"];
 
-playerChoice.forEach(choice =>{
-    choice.addEventListener('click' , playRound);
-});
+function toggleListeners(add) {
+    playerChoice.forEach(choice => {
+        if (add) {
+            choice.addEventListener('click', playRound);
+        } else {
+            choice.removeEventListener('click', playRound);
+        }
+    });
+}
+toggleListeners(true);
 
 function getComputerChoice(){
     return moves[Math.floor(Math.random() * 3)];
@@ -16,23 +23,32 @@ function getHumanChoice(event){
     return event.target.id;
 }
 
-function playRound(event){
+function playRound(event) {
     const humanChoice = getHumanChoice(event);
     const computerChoice = getComputerChoice();
-    const verdict = determineWinner(humanChoice , computerChoice);
-    displayVersus(humanChoice , computerChoice);
-    displayVerdictText(verdict,humanChoice , computerChoice);
+    const verdict = determineWinner(humanChoice, computerChoice);
+    displayVersus(humanChoice, computerChoice);
+    displayVerdictText(verdict, humanChoice, computerChoice);
     updateScores(verdict);
-    startNextRound();
+
+    if (roundCount == 5) {
+        getALife();
+    } else {
+        toggleListeners(false);
+        startNextRound();
+    }
 }
 
 function determineWinner(humanChoice , computerChoice){
     const humanIndex = moves.indexOf(humanChoice);
     const computerIndex = moves.indexOf(computerChoice);
-    const decider = Math.abs(humanIndex - computerIndex) % 3;
-    if (decider == 0) return 0;
-    else if (decider == 1) return -1;
-    else return 1
+
+    if (humanIndex === computerIndex) return 0;
+
+    const decider = (humanIndex - computerIndex + 3) % 3;
+
+    if (decider === 1) return 1; 
+    else return -1; 
 }
 
 function displayVersus(humanChoice , computerChoice){
@@ -104,7 +120,30 @@ function startNextRound(){
         const roundCounter =  document.querySelector(".round-counter");
         roundCount += 1;
         roundCounter.textContent = `Round: ${roundCount}`;
+
+        toggleListeners(true);
     });
+}
+
+function getALife() {
+    const body = document.body;
+    while (body.firstChild) {
+        body.removeChild(body.firstChild);
+    }
+
+    const h1 = document.createElement("h1");
+    h1.textContent = "GET A LIFE!!";
+    h1.style.color = "red";
+ 
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "flex";
+    wrapper.style.justifyContent = "center";
+    wrapper.style.alignItems = "center";
+    wrapper.style.height = "100vh";
+
+    wrapper.appendChild(h1);
+    body.appendChild(wrapper);
+    toggleListeners(false);
 }
 
 
